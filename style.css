@@ -1,0 +1,269 @@
+:root {
+    --bg-color: #fffaf0;
+    --vase-primary: #40c4ff;
+    --vase-secondary: #00b0ff;
+    --stem-color: #2e7d32;
+    --flower-color: #ff5252;
+    --accent-color: #ff9100;
+    --font-main: 'Outfit', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    height: 100vh;
+    overflow: hidden;
+    font-family: var(--font-main);
+    background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+header {
+    position: absolute;
+    top: 60px;
+    text-align: center;
+    pointer-events: none;
+    z-index: 10;
+}
+
+h1 {
+    font-weight: 600;
+    color: #ff4081;
+    text-shadow: 0 0 20px rgba(255, 64, 129, 0.4);
+    font-size: clamp(1.5rem, 8vw, 2rem);
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+    padding: 0 20px;
+}
+
+p {
+    font-weight: 300;
+    color: #f48fb1;
+    opacity: 0.9;
+}
+
+/* Garden Container */
+.garden {
+    position: relative;
+    width: 300px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 20px;
+}
+
+/* Vase Styling */
+.vase {
+    position: relative;
+    width: 120px;
+    height: 140px;
+    background: var(--vase-primary);
+    border-radius: 40% 40% 80% 80% / 30% 30% 120% 120%;
+    box-shadow: inset -10px -10px 20px rgba(0,0,0,0.1), 0 20px 40px rgba(0,0,0,0.1);
+    z-index: 5;
+}
+
+.vase::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 20px;
+    background: var(--vase-secondary);
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.3);
+}
+
+.vase-decor {
+    position: absolute;
+    width: 100%;
+    height: 35px;
+    top: 65px;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 8px,
+        rgba(255,255,255,0.9) 8px,
+        rgba(255,255,255,0.9) 12px
+    );
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 15px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Flowers Container */
+.flowers {
+    position: absolute;
+    bottom: 120px;
+    width: 250px;
+    height: 300px;
+    z-index: 1;
+}
+
+/* Individual Flower */
+.flower {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform-origin: bottom center;
+    pointer-events: auto;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.flower:hover {
+    filter: brightness(1.2);
+}
+
+.stem {
+    width: 6px;
+    height: 0;
+    background: var(--stem-color);
+    transition: height 2s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 6px;
+    position: relative;
+    left: -3px; /* Center the 6px stem */
+}
+
+/* The green base of the flower */
+.stem::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    width: 15px;
+    height: 15px;
+    background: var(--stem-color);
+    border-radius: 50% 50% 20% 20%;
+    transition: transform 0.5s 1.8s;
+}
+
+.flower.bloomed .stem::after {
+    transform: translateX(-50%) scale(1);
+}
+
+.petals {
+    position: absolute;
+    bottom: 100%; /* Follow the top of the growing stem */
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    transition: transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    width: 0;
+    height: 0;
+    margin-bottom: 5px; /* Offset for the receptacle */
+}
+
+.petal {
+    position: absolute;
+    width: 32px;
+    height: 52px;
+    background: var(--flower-color);
+    border-radius: 50% 50% 50% 50% / 80% 80% 20% 20%;
+    transform-origin: bottom center;
+    box-shadow: inset 0 0 12px rgba(0,0,0,0.15);
+    bottom: 0;
+    left: -16px;
+}
+
+.petal:nth-child(1) { transform: rotate(0deg); z-index: 3; }
+.petal:nth-child(2) { transform: rotate(40deg); z-index: 2; }
+.petal:nth-child(3) { transform: rotate(-40deg); z-index: 2; }
+.petal:nth-child(4) { transform: rotate(20deg) scaleY(0.9); background: #ff1744; z-index: 1; }
+.petal:nth-child(5) { transform: rotate(-20deg) scaleY(0.9); background: #ff1744; z-index: 1; }
+
+.leaf {
+    position: absolute;
+    width: 25px;
+    height: 45px;
+    background: #81c784;
+    border-radius: 0 100% 0 100%;
+    transform: scale(0);
+    transition: transform 1.2s 1.5s; /* Appear after stem grows a bit */
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+}
+
+.leaf.left { left: -18px; bottom: 60px; transform: rotate(-45deg) scale(0); }
+.leaf.right { right: -18px; bottom: 85px; transform: rotate(45deg) scale(0); }
+
+/* Animation Classes */
+.flower.bloomed .stem { height: 200px; }
+.flower.bloomed .petals { transform: translateX(-50%) scale(1); transition-delay: 1.8s; }
+.flower.bloomed .leaf.left { transform: rotate(-45deg) scale(1); }
+.flower.bloomed .leaf.right { transform: rotate(45deg) scale(1); }
+
+/* Multi-flower variations with base rotation variables */
+.flower:nth-child(1) { --base-rotation: 0deg; transform: rotate(0deg); }
+.flower:nth-child(2) { --base-rotation: -25deg; transform: rotate(-25deg); }
+.flower:nth-child(3) { --base-rotation: 25deg; transform: rotate(25deg); }
+.flower:nth-child(4) { --base-rotation: -12deg; transform: rotate(-12deg); }
+.flower:nth-child(5) { --base-rotation: 12deg; transform: rotate(12deg); }
+
+.flower:nth-child(2).bloomed .stem { height: 160px; }
+.flower:nth-child(3).bloomed .stem { height: 160px; }
+.flower:nth-child(4).bloomed .stem { height: 180px; }
+.flower:nth-child(5).bloomed .stem { height: 180px; }
+
+/* Rhythmic Animations - Subdued and Delicate */
+@keyframes flowerSway {
+    0% { transform: rotate(calc(var(--base-rotation) - 0.8deg)); }
+    100% { transform: rotate(calc(var(--base-rotation) + 0.8deg)); }
+}
+
+@keyframes rhythmBounce {
+    0%, 100% { transform: scale(1) rotate(var(--base-rotation)); }
+    50% { transform: scale(1.03) rotate(calc(var(--base-rotation) + 1.5deg)); }
+}
+
+.flower.bloomed {
+    animation: flowerSway 4s ease-in-out infinite alternate;
+}
+
+.flower.dancing {
+    animation: rhythmBounce 0.6s ease-in-out !important;
+}
+
+/* Shadow on the floor */
+.garden::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    width: 140px;
+    height: 15px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+/* Media Queries for Mobile Responsiveness */
+@media (max-height: 700px) {
+    header { top: 30px; }
+    .garden { transform: scale(0.85); transform-origin: bottom center; }
+}
+
+@media (max-width: 360px) {
+    .garden { transform: scale(0.8); transform-origin: bottom center; }
+    h1 { font-size: 1.4rem; }
+}
