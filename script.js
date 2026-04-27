@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         isBlooming = true;
         headerText.textContent = "Watching our love grow...";
-        headerText.style.color = "#ff4081";
+        headerText.style.color = "#ffffff";
         headerText.style.fontWeight = "600";
         
         startAutomaticBloom();
